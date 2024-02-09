@@ -38,3 +38,8 @@ class FileStorage:
                 self.__objects = json.loads(json_str)
         except FileNotFoundError:
             pass
+
+    def remove(self, key):
+        """
+        """
+        del self.__objects[key]

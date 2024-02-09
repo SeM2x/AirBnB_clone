@@ -3,7 +3,7 @@
 import uuid
 from datetime import datetime
 from . import storage
-
+from copy import copy
 
 class BaseModel:
     """
@@ -33,13 +33,14 @@ class BaseModel:
     def save(self):
         """
         """
-        storage.save()
         self.updated_at = datetime.now()
+        storage.new(self.to_dict())
+        storage.save()
 
     def to_dict(self):
         """
         """
-        new_dict = self.__dict__
+        new_dict = copy(self.__dict__)
         new_dict['__class__'] = self.__class__.__name__
         new_dict['created_at'] = self.created_at.isoformat()
         new_dict['updated_at'] = self.updated_at.isoformat()
