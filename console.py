@@ -3,17 +3,18 @@
 import cmd
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     """
     """
     prompt = "(hbnb) "
-    
+
     def __check_class(self, args):
         """
         """
-        classes = ['BaseModel']
+        classes = ['BaseModel', 'User']
         if not args:
             print("** class name missing **")
             return False
@@ -28,7 +29,7 @@ class HBNBCommand(cmd.Cmd):
         """EOF command to exit the program
         """
         return True
-    
+
     def do_quit(self, arg):
         """Quit command to exit the program
         """
@@ -41,10 +42,11 @@ class HBNBCommand(cmd.Cmd):
         if not self.__check_class(args):
             return
 
-        model = BaseModel()
-        model.save()
-        print(model.id)
-    
+        Class = globals()[args[0]]
+        obj = Class()
+        obj.save()
+        print(obj.id)
+
     def do_show(self, arg):
         """
         """
@@ -52,6 +54,8 @@ class HBNBCommand(cmd.Cmd):
 
         if not self.__check_class(args):
             return
+
+        Class = globals()[args[0]]
 
         if len(args) < 2:
             print("** instance id missing **")
@@ -63,8 +67,8 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return
 
-        print(BaseModel(**objects[key]))
-    
+        print(Class(**objects[key]))
+
     def do_destroy(self, arg):
         """
         """
@@ -83,7 +87,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         storage.remove(key)
-        storage.save() 
+        storage.save()
 
     def do_all(self, arg):
         """
@@ -91,16 +95,20 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if not self.__check_class(args):
             return
-    
-        plist = [BaseModel(**obj).__str__() for obj in storage.all().values()]
-        print(plist)
-    
+
+        Class = globals()[args[0]]
+        obj_list = [str(Class(**obj)) for obj in storage.all().values()
+                    if obj['__class__'] == args[0]]
+        print(obj_list)
+
     def do_update(self, arg):
         """
         """
         args = arg.split()
         if not self.__check_class(args):
             return
+
+        Class = globals()[args[0]]
 
         if len(args) < 2:
             print("** instance id missing **")
@@ -111,16 +119,16 @@ class HBNBCommand(cmd.Cmd):
         if key not in objects.keys():
             print("** no instance found **")
             return
-        
+
         if len(args) < 3:
             print("** attribute name missing **")
             return
-        
+
         attr = args[2]
         if len(args) < 4:
             print("** value missing **")
             return
-        
+
         value = args[3]
         obj = objects[key]
         try:
@@ -132,12 +140,13 @@ class HBNBCommand(cmd.Cmd):
                 value = value.replace('"', '')
 
         obj[attr] = value
-        BaseModel(**obj).save()
+        Class(**obj).save()
 
     def emptyline(self):
         """
         """
         pass
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
