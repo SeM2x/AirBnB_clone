@@ -186,6 +186,10 @@ class HBNBCommand(cmd.Cmd):
             elif parts[1][:4] == 'show':
                 obj_id = parts[1][5:-1]
                 self.do_show(f"{parts[0]} {obj_id}")
+
+            elif parts[1][:7] == 'destroy':
+                obj_id = parts[1][8:-1]
+                self.do_destroy(f"{parts[0]} {obj_id}")
         else:
             print(f"Unknown syntax: {line}")
 
