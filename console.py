@@ -20,7 +20,7 @@ class HBNBCommand(cmd.Cmd):
         """
         """
         classes = [
-                'BaseModel', 
+                'BaseModel',
                 'User',
                 'State',
                 'City',
