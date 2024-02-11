@@ -122,7 +122,6 @@ class HBNBCommand(cmd.Cmd):
         if not self.__class_exists(args):
             return
 
-        Class = globals()[args[0]]
         obj_list = [str(obj) for obj in storage.all().values()
                     if obj.to_dict()['__class__'] == args[0]]
         print(obj_list)
@@ -166,6 +165,16 @@ class HBNBCommand(cmd.Cmd):
 
         obj.__dict__[attr] = value
         obj.save()
+
+    def default(self, line):
+        """
+        Default method to handle commands.
+        """
+        parts = line.split('.')
+        if len(parts) == 2 and parts[1] == 'all()':
+            self.do_all(parts[0])
+        else:
+            print(f"Unknown syntax: {line}")
 
     def emptyline(self):
         """
