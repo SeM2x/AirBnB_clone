@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-""" """
+"""
+This module implements a command-line interface for managing instances
+of different classes in the HBNB project.
+"""
+
 import cmd
 from models.base_model import BaseModel
 from models.user import User
@@ -13,11 +17,15 @@ from models import storage
 
 class HBNBCommand(cmd.Cmd):
     """
+    Command-line interface for managing instances of different classes
+    in the HBNB project.
     """
+
     prompt = "(hbnb) "
 
     def __class_exists(self, args):
         """
+        Check if the provided class name exists.
         """
         classes = [
                 'BaseModel',
@@ -39,17 +47,20 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_EOF(self, arg):
-        """EOF command to exit the program
+        """
+        Handle EOF (Ctrl+D) command to exit the program.
         """
         return True
 
     def do_quit(self, arg):
-        """Quit command to exit the program
+        """
+        Handle 'quit' command to exit the program.
         """
         return True
 
     def do_create(self, arg):
         """
+        Create a new instance of a given class.
         """
         args = arg.split()
         if not self.__class_exists(args):
@@ -62,6 +73,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
+        Display the string representation of an instance
+        based on class name and id.
         """
         args = arg.split()
 
@@ -82,6 +95,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """
+        Delete an instance based on class name and id.
         """
         args = arg.split()
         if not self.__class_exists(args):
@@ -102,6 +116,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """
+        Display the string representation of all instances of a given class.
         """
         args = arg.split()
         if not self.__class_exists(args):
@@ -114,6 +129,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """
+        Update an instance based on the class name and id.
         """
         args = arg.split()
         if not self.__class_exists(args):
@@ -153,6 +169,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """
+        Do nothing on empty line.
         """
         pass
 

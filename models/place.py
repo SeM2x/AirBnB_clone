@@ -1,11 +1,16 @@
 #!/usr/bin/python3
-""""""
+"""
+This module defines the Place class, a subclass of BaseModel.
+"""
+
 from .base_model import BaseModel
 
 
 class Place(BaseModel):
     """
+    Place class for storing information about places.
     """
+
     city_id = ''
     user_id = ''
     name = ''
@@ -20,5 +25,6 @@ class Place(BaseModel):
 
     def __init__(self, *args, **kwargs):
         """
+        Initialize a new Place instance.
         """
         super().__init__(*args, **kwargs)
