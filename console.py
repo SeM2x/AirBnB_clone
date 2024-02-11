@@ -190,6 +190,10 @@ class HBNBCommand(cmd.Cmd):
             elif parts[1][:7] == 'destroy':
                 obj_id = parts[1][8:-1]
                 self.do_destroy(f"{parts[0]} {obj_id}")
+
+            elif parts[1][:6] == 'update':
+                args = [item.strip() for item in parts[1][7:-1].split(',')]
+                self.do_update(f"{parts[0]} {args[0]} {args[1]} {args[2]}")
         else:
             print(f"Unknown syntax: {line}")
 
