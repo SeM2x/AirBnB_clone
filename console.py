@@ -2,8 +2,13 @@
 """ """
 import cmd
 from models.base_model import BaseModel
-from models import storage
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -11,10 +16,18 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
-    def __check_class(self, args):
+    def __class_exists(self, args):
         """
         """
-        classes = ['BaseModel', 'User']
+        classes = [
+                'BaseModel', 
+                'User',
+                'State',
+                'City',
+                'Amenity',
+                'Place',
+                'Review'
+                ]
         if not args:
             print("** class name missing **")
             return False
@@ -39,7 +52,7 @@ class HBNBCommand(cmd.Cmd):
         """
         """
         args = arg.split()
-        if not self.__check_class(args):
+        if not self.__class_exists(args):
             return
 
         Class = globals()[args[0]]
@@ -52,10 +65,8 @@ class HBNBCommand(cmd.Cmd):
         """
         args = arg.split()
 
-        if not self.__check_class(args):
+        if not self.__class_exists(args):
             return
-
-        Class = globals()[args[0]]
 
         if len(args) < 2:
             print("** instance id missing **")
@@ -67,13 +78,13 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return
 
-        print(Class(**objects[key]))
+        print(objects[key])
 
     def do_destroy(self, arg):
         """
         """
         args = arg.split()
-        if not self.__check_class(args):
+        if not self.__class_exists(args):
             return
 
         if len(args) < 2:
@@ -86,29 +97,27 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return
 
-        storage.remove(key)
+        del objects[key]
         storage.save()
 
     def do_all(self, arg):
         """
         """
         args = arg.split()
-        if not self.__check_class(args):
+        if not self.__class_exists(args):
             return
 
         Class = globals()[args[0]]
-        obj_list = [str(Class(**obj)) for obj in storage.all().values()
-                    if obj['__class__'] == args[0]]
+        obj_list = [str(obj) for obj in storage.all().values()
+                    if obj.to_dict()['__class__'] == args[0]]
         print(obj_list)
 
     def do_update(self, arg):
         """
         """
         args = arg.split()
-        if not self.__check_class(args):
+        if not self.__class_exists(args):
             return
-
-        Class = globals()[args[0]]
 
         if len(args) < 2:
             print("** instance id missing **")
@@ -139,8 +148,8 @@ class HBNBCommand(cmd.Cmd):
             except ValueError:
                 value = value.replace('"', '')
 
-        obj[attr] = value
-        Class(**obj).save()
+        obj.__dict__[attr] = value
+        obj.save()
 
     def emptyline(self):
         """
