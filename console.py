@@ -174,12 +174,18 @@ class HBNBCommand(cmd.Cmd):
         if len(parts) == 2:
             if not self.__class_exists(parts):
                 return
-            if parts[1] == 'all()':
+
+            if parts[1][:3] == 'all':
                 self.do_all(parts[0])
-            elif parts[1] == 'count()':
+
+            elif parts[1][:5] == 'count':
                 obj_list = [str(obj) for obj in storage.all().values()
                             if obj.to_dict()['__class__'] == parts[0]]
                 print(len(obj_list))
+
+            elif parts[1][:4] == 'show':
+                obj_id = parts[1][5:-1]
+                self.do_show(f"{parts[0]} {obj_id}")
         else:
             print(f"Unknown syntax: {line}")
 
