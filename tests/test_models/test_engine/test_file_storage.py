@@ -161,7 +161,7 @@ class TestFileStorage_methods(unittest.TestCase):
 
     def test_reload_no_file(self):
         """
-        """    
+        """
         initial_objects = models.storage.all()
         models.storage.reload()
         updated_objects = models.storage.all()
