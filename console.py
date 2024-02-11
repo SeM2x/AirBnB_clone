@@ -171,8 +171,15 @@ class HBNBCommand(cmd.Cmd):
         Default method to handle commands.
         """
         parts = line.split('.')
-        if len(parts) == 2 and parts[1] == 'all()':
-            self.do_all(parts[0])
+        if len(parts) == 2:
+            if not self.__class_exists(parts):
+                return
+            if parts[1] == 'all()':
+                self.do_all(parts[0])
+            elif parts[1] == 'count()':
+                obj_list = [str(obj) for obj in storage.all().values()
+                            if obj.to_dict()['__class__'] == parts[0]]
+                print(len(obj_list))
         else:
             print(f"Unknown syntax: {line}")
 
