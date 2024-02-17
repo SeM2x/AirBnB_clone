@@ -3,13 +3,13 @@
     height: 70px;
     width: 100%;
     border: 1px solid #DDDDDD;
-    border-radius: 0px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: start;
 }
 
-button {
+.filters button {
     font-size: 18px;
     background-color: #FF5A5F;
     color: #FFFFFF;
@@ -22,7 +22,7 @@ button {
     justify-self: right;
 }
 
-button:hover {
+.filters button:hover {
     opacity: 90%;
 }
 
@@ -40,12 +40,12 @@ button:hover {
     border-right: 1px solid #DDDDDD;
 }
 
-h3 {
+.filters h3 {
     font-weight: 600;
     width: 100%;
 }
 
-h4 {
+.filters h4 {
     font-weight: 400;
     font-size: 14px;
 }
@@ -67,8 +67,12 @@ h4 {
     border-bottom-left-radius: 4px;
 }
 
-li {
+.filters li {
     margin-bottom: 20px;
+}
+
+.popover {
+    z-index: 10;
 }
 
 .locations:hover > .popover,
@@ -76,15 +80,11 @@ li {
     display: block;
 }
 
-.locations:hover > .filters {
-    border-radius: 0px;
-}
-
-h2 {
+.filters h2 {
     font-size: 16px;
     margin-left: -20px;
 }
 
-p {
+.filters p {
     margin-bottom: 4px;
 }
